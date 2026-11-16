@@ -1,0 +1,711 @@
+{
+  "features": [
+    {
+      "name": "ball_available",
+      "unit": "binary",
+      "definition": "Finite ball coordinates admitted by the input policy; available in both providers"
+    },
+    {
+      "name": "ball_x_m",
+      "unit": "m",
+      "definition": "Longitudinal coordinate, pitch centre origin"
+    },
+    {
+      "name": "ball_y_m",
+      "unit": "m",
+      "definition": "Lateral coordinate, pitch centre origin"
+    },
+    {
+      "name": "ball_vx_mps",
+      "unit": "m/s",
+      "definition": "Backward difference between adjacent observed samples in the same half; missing across gaps"
+    },
+    {
+      "name": "ball_vy_mps",
+      "unit": "m/s",
+      "definition": "Backward difference between adjacent observed samples in the same half; missing across gaps"
+    },
+    {
+      "name": "ball_speed_mps",
+      "unit": "m/s",
+      "definition": "Euclidean norm of valid ball velocity"
+    },
+    {
+      "name": "ball_direction_x",
+      "unit": "unitless",
+      "definition": "Unit x component of valid nonzero ball velocity"
+    },
+    {
+      "name": "ball_direction_y",
+      "unit": "unitless",
+      "definition": "Unit y component of valid nonzero ball velocity"
+    },
+    {
+      "name": "ball_acceleration_mps2",
+      "unit": "m/s2",
+      "definition": "Backward difference of adjacent valid ball velocities"
+    },
+    {
+      "name": "ball_slow_duration_s",
+      "unit": "s",
+      "definition": "Consecutive valid velocity samples <=0.5 m/s; not a dead-ball rule"
+    },
+    {
+      "name": "ball_distance_touchline_m",
+      "unit": "m",
+      "definition": "Signed distance to nearest touchline; negative beyond the line"
+    },
+    {
+      "name": "ball_distance_goal_line_m",
+      "unit": "m",
+      "definition": "Signed distance to nearest end line; negative beyond the line"
+    },
+    {
+      "name": "ball_distance_goal_negative_x_m",
+      "unit": "m",
+      "definition": "2D distance to a goal centre; no assumption about the team attacking it"
+    },
+    {
+      "name": "ball_distance_goal_positive_x_m",
+      "unit": "m",
+      "definition": "2D distance to a goal centre; no assumption about the team attacking it"
+    },
+    {
+      "name": "H_players_available",
+      "unit": "count",
+      "definition": "Players with both finite coordinates, independent of their array order"
+    },
+    {
+      "name": "H_centre_x_m",
+      "unit": "m",
+      "definition": "Mean coordinate of available teammates; accompanied by availability count"
+    },
+    {
+      "name": "H_extent_x_m",
+      "unit": "m",
+      "definition": "90th minus 10th percentile among available teammates"
+    },
+    {
+      "name": "H_centre_y_m",
+      "unit": "m",
+      "definition": "Mean coordinate of available teammates; accompanied by availability count"
+    },
+    {
+      "name": "H_extent_y_m",
+      "unit": "m",
+      "definition": "90th minus 10th percentile among available teammates"
+    },
+    {
+      "name": "H_spread_m",
+      "unit": "m",
+      "definition": "Root mean squared distance of available teammates from their centre"
+    },
+    {
+      "name": "H_centre_vx_mps",
+      "unit": "m/s",
+      "definition": "Change in observed team centre; availability changes may affect it"
+    },
+    {
+      "name": "H_centre_vy_mps",
+      "unit": "m/s",
+      "definition": "Change in observed team centre; availability changes may affect it"
+    },
+    {
+      "name": "H_extent_x_change_mps",
+      "unit": "m/s",
+      "definition": "Temporal change in robust team extent"
+    },
+    {
+      "name": "H_extent_y_change_mps",
+      "unit": "m/s",
+      "definition": "Temporal change in robust team extent"
+    },
+    {
+      "name": "H_players_with_velocity",
+      "unit": "count",
+      "definition": "Players with a valid locally continuous velocity"
+    },
+    {
+      "name": "H_speed_p25_mps",
+      "unit": "m/s",
+      "definition": "Quantile of valid player speeds"
+    },
+    {
+      "name": "H_speed_median_mps",
+      "unit": "m/s",
+      "definition": "Quantile of valid player speeds"
+    },
+    {
+      "name": "H_speed_p75_mps",
+      "unit": "m/s",
+      "definition": "Quantile of valid player speeds"
+    },
+    {
+      "name": "H_slow_players_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of players with valid speeds <=0.5 m/s; not a game-state rule"
+    },
+    {
+      "name": "H_grid_0_0_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of available teammates in a fixed 3x2 pitch cell; no coordinate clipping"
+    },
+    {
+      "name": "H_grid_0_1_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of available teammates in a fixed 3x2 pitch cell; no coordinate clipping"
+    },
+    {
+      "name": "H_grid_1_0_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of available teammates in a fixed 3x2 pitch cell; no coordinate clipping"
+    },
+    {
+      "name": "H_grid_1_1_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of available teammates in a fixed 3x2 pitch cell; no coordinate clipping"
+    },
+    {
+      "name": "H_grid_2_0_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of available teammates in a fixed 3x2 pitch cell; no coordinate clipping"
+    },
+    {
+      "name": "H_grid_2_1_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of available teammates in a fixed 3x2 pitch cell; no coordinate clipping"
+    },
+    {
+      "name": "H_ball_distance_rank1_m",
+      "unit": "m",
+      "definition": "Sorted ball distance among available teammates; missing without observed ball"
+    },
+    {
+      "name": "H_ball_distance_rank2_m",
+      "unit": "m",
+      "definition": "Sorted ball distance among available teammates; missing without observed ball"
+    },
+    {
+      "name": "H_ball_distance_rank3_m",
+      "unit": "m",
+      "definition": "Sorted ball distance among available teammates; missing without observed ball"
+    },
+    {
+      "name": "H_players_within_2m_ball",
+      "unit": "count",
+      "definition": "Observed teammates within radius of observed ball; unavailable when ball or team is absent"
+    },
+    {
+      "name": "H_players_within_5m_ball",
+      "unit": "count",
+      "definition": "Observed teammates within radius of observed ball; unavailable when ball or team is absent"
+    },
+    {
+      "name": "H_players_within_10m_ball",
+      "unit": "count",
+      "definition": "Observed teammates within radius of observed ball; unavailable when ball or team is absent"
+    },
+    {
+      "name": "A_players_available",
+      "unit": "count",
+      "definition": "Players with both finite coordinates, independent of their array order"
+    },
+    {
+      "name": "A_centre_x_m",
+      "unit": "m",
+      "definition": "Mean coordinate of available teammates; accompanied by availability count"
+    },
+    {
+      "name": "A_extent_x_m",
+      "unit": "m",
+      "definition": "90th minus 10th percentile among available teammates"
+    },
+    {
+      "name": "A_centre_y_m",
+      "unit": "m",
+      "definition": "Mean coordinate of available teammates; accompanied by availability count"
+    },
+    {
+      "name": "A_extent_y_m",
+      "unit": "m",
+      "definition": "90th minus 10th percentile among available teammates"
+    },
+    {
+      "name": "A_spread_m",
+      "unit": "m",
+      "definition": "Root mean squared distance of available teammates from their centre"
+    },
+    {
+      "name": "A_centre_vx_mps",
+      "unit": "m/s",
+      "definition": "Change in observed team centre; availability changes may affect it"
+    },
+    {
+      "name": "A_centre_vy_mps",
+      "unit": "m/s",
+      "definition": "Change in observed team centre; availability changes may affect it"
+    },
+    {
+      "name": "A_extent_x_change_mps",
+      "unit": "m/s",
+      "definition": "Temporal change in robust team extent"
+    },
+    {
+      "name": "A_extent_y_change_mps",
+      "unit": "m/s",
+      "definition": "Temporal change in robust team extent"
+    },
+    {
+      "name": "A_players_with_velocity",
+      "unit": "count",
+      "definition": "Players with a valid locally continuous velocity"
+    },
+    {
+      "name": "A_speed_p25_mps",
+      "unit": "m/s",
+      "definition": "Quantile of valid player speeds"
+    },
+    {
+      "name": "A_speed_median_mps",
+      "unit": "m/s",
+      "definition": "Quantile of valid player speeds"
+    },
+    {
+      "name": "A_speed_p75_mps",
+      "unit": "m/s",
+      "definition": "Quantile of valid player speeds"
+    },
+    {
+      "name": "A_slow_players_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of players with valid speeds <=0.5 m/s; not a game-state rule"
+    },
+    {
+      "name": "A_grid_0_0_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of available teammates in a fixed 3x2 pitch cell; no coordinate clipping"
+    },
+    {
+      "name": "A_grid_0_1_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of available teammates in a fixed 3x2 pitch cell; no coordinate clipping"
+    },
+    {
+      "name": "A_grid_1_0_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of available teammates in a fixed 3x2 pitch cell; no coordinate clipping"
+    },
+    {
+      "name": "A_grid_1_1_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of available teammates in a fixed 3x2 pitch cell; no coordinate clipping"
+    },
+    {
+      "name": "A_grid_2_0_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of available teammates in a fixed 3x2 pitch cell; no coordinate clipping"
+    },
+    {
+      "name": "A_grid_2_1_fraction",
+      "unit": "fraction",
+      "definition": "Fraction of available teammates in a fixed 3x2 pitch cell; no coordinate clipping"
+    },
+    {
+      "name": "A_ball_distance_rank1_m",
+      "unit": "m",
+      "definition": "Sorted ball distance among available teammates; missing without observed ball"
+    },
+    {
+      "name": "A_ball_distance_rank2_m",
+      "unit": "m",
+      "definition": "Sorted ball distance among available teammates; missing without observed ball"
+    },
+    {
+      "name": "A_ball_distance_rank3_m",
+      "unit": "m",
+      "definition": "Sorted ball distance among available teammates; missing without observed ball"
+    },
+    {
+      "name": "A_players_within_2m_ball",
+      "unit": "count",
+      "definition": "Observed teammates within radius of observed ball; unavailable when ball or team is absent"
+    },
+    {
+      "name": "A_players_within_5m_ball",
+      "unit": "count",
+      "definition": "Observed teammates within radius of observed ball; unavailable when ball or team is absent"
+    },
+    {
+      "name": "A_players_within_10m_ball",
+      "unit": "count",
+      "definition": "Observed teammates within radius of observed ball; unavailable when ball or team is absent"
+    },
+    {
+      "name": "teams_centre_dx_m",
+      "unit": "m",
+      "definition": "A centre x minus H centre x"
+    },
+    {
+      "name": "teams_centre_dy_m",
+      "unit": "m",
+      "definition": "A centre y minus H centre y"
+    },
+    {
+      "name": "teams_centre_distance_m",
+      "unit": "m",
+      "definition": "Distance between observed team centres"
+    },
+    {
+      "name": "teams_grid_overlap",
+      "unit": "fraction",
+      "definition": "Sum of cellwise minima of observed team distributions"
+    },
+    {
+      "name": "ball_nearest_distance_A_minus_H_m",
+      "unit": "m",
+      "definition": "Difference in nearest-team distance; positive means H is closer"
+    },
+    {
+      "name": "teams_nearest_opponents_distance_m",
+      "unit": "m",
+      "definition": "Minimum observed H-A distance; no stable identity used as a feature"
+    },
+    {
+      "name": "ball_last_observed_x_m",
+      "unit": "m",
+      "definition": "Most recent admitted observation within this half, explicitly stale when age>0"
+    },
+    {
+      "name": "ball_last_observed_y_m",
+      "unit": "m",
+      "definition": "Most recent admitted observation within this half"
+    },
+    {
+      "name": "ball_age_last_observation_s",
+      "unit": "s",
+      "definition": "Elapsed match time since last admitted observation; missing before first observation"
+    },
+    {
+      "name": "ball_missing_run_s",
+      "unit": "s",
+      "definition": "Current consecutive missing duration; resets on observation and at half boundary"
+    },
+    {
+      "name": "H_speed_mean_mps",
+      "unit": "m/s",
+      "definition": "Mean magnitude of locally continuous player velocities admitted by QC; minimum support configured"
+    },
+    {
+      "name": "H_speed_mean_trailing_1s_mps",
+      "unit": "m/s",
+      "definition": "Trailing mean team speed; requires a complete window of finite supported observations"
+    },
+    {
+      "name": "H_slowdown_1s_mps",
+      "unit": "m/s",
+      "definition": "Mean speed in the preceding nonoverlapping window minus current window; positive means slowing"
+    },
+    {
+      "name": "H_slow_fraction_trailing_1s",
+      "unit": "fraction",
+      "definition": "Trailing mean fraction of players classified as slow by the base feature; no game-state label"
+    },
+    {
+      "name": "H_velocity_support_fraction_1s",
+      "unit": "fraction",
+      "definition": "Fraction of trailing samples with enough player velocities; includes unavailable samples as absent support"
+    },
+    {
+      "name": "H_speed_mean_trailing_3s_mps",
+      "unit": "m/s",
+      "definition": "Trailing mean team speed; requires a complete window of finite supported observations"
+    },
+    {
+      "name": "H_slowdown_3s_mps",
+      "unit": "m/s",
+      "definition": "Mean speed in the preceding nonoverlapping window minus current window; positive means slowing"
+    },
+    {
+      "name": "H_slow_fraction_trailing_3s",
+      "unit": "fraction",
+      "definition": "Trailing mean fraction of players classified as slow by the base feature; no game-state label"
+    },
+    {
+      "name": "H_velocity_support_fraction_3s",
+      "unit": "fraction",
+      "definition": "Fraction of trailing samples with enough player velocities; includes unavailable samples as absent support"
+    },
+    {
+      "name": "H_speed_mean_trailing_5s_mps",
+      "unit": "m/s",
+      "definition": "Trailing mean team speed; requires a complete window of finite supported observations"
+    },
+    {
+      "name": "H_slowdown_5s_mps",
+      "unit": "m/s",
+      "definition": "Mean speed in the preceding nonoverlapping window minus current window; positive means slowing"
+    },
+    {
+      "name": "H_slow_fraction_trailing_5s",
+      "unit": "fraction",
+      "definition": "Trailing mean fraction of players classified as slow by the base feature; no game-state label"
+    },
+    {
+      "name": "H_velocity_support_fraction_5s",
+      "unit": "fraction",
+      "definition": "Fraction of trailing samples with enough player velocities; includes unavailable samples as absent support"
+    },
+    {
+      "name": "H_collective_slow_duration_s",
+      "unit": "s",
+      "definition": "Consecutive supported samples with enough slow players; threshold is a cue, not D"
+    },
+    {
+      "name": "A_speed_mean_mps",
+      "unit": "m/s",
+      "definition": "Mean magnitude of locally continuous player velocities admitted by QC; minimum support configured"
+    },
+    {
+      "name": "A_speed_mean_trailing_1s_mps",
+      "unit": "m/s",
+      "definition": "Trailing mean team speed; requires a complete window of finite supported observations"
+    },
+    {
+      "name": "A_slowdown_1s_mps",
+      "unit": "m/s",
+      "definition": "Mean speed in the preceding nonoverlapping window minus current window; positive means slowing"
+    },
+    {
+      "name": "A_slow_fraction_trailing_1s",
+      "unit": "fraction",
+      "definition": "Trailing mean fraction of players classified as slow by the base feature; no game-state label"
+    },
+    {
+      "name": "A_velocity_support_fraction_1s",
+      "unit": "fraction",
+      "definition": "Fraction of trailing samples with enough player velocities; includes unavailable samples as absent support"
+    },
+    {
+      "name": "A_speed_mean_trailing_3s_mps",
+      "unit": "m/s",
+      "definition": "Trailing mean team speed; requires a complete window of finite supported observations"
+    },
+    {
+      "name": "A_slowdown_3s_mps",
+      "unit": "m/s",
+      "definition": "Mean speed in the preceding nonoverlapping window minus current window; positive means slowing"
+    },
+    {
+      "name": "A_slow_fraction_trailing_3s",
+      "unit": "fraction",
+      "definition": "Trailing mean fraction of players classified as slow by the base feature; no game-state label"
+    },
+    {
+      "name": "A_velocity_support_fraction_3s",
+      "unit": "fraction",
+      "definition": "Fraction of trailing samples with enough player velocities; includes unavailable samples as absent support"
+    },
+    {
+      "name": "A_speed_mean_trailing_5s_mps",
+      "unit": "m/s",
+      "definition": "Trailing mean team speed; requires a complete window of finite supported observations"
+    },
+    {
+      "name": "A_slowdown_5s_mps",
+      "unit": "m/s",
+      "definition": "Mean speed in the preceding nonoverlapping window minus current window; positive means slowing"
+    },
+    {
+      "name": "A_slow_fraction_trailing_5s",
+      "unit": "fraction",
+      "definition": "Trailing mean fraction of players classified as slow by the base feature; no game-state label"
+    },
+    {
+      "name": "A_velocity_support_fraction_5s",
+      "unit": "fraction",
+      "definition": "Fraction of trailing samples with enough player velocities; includes unavailable samples as absent support"
+    },
+    {
+      "name": "A_collective_slow_duration_s",
+      "unit": "s",
+      "definition": "Consecutive supported samples with enough slow players; threshold is a cue, not D"
+    },
+    {
+      "name": "both_teams_slow_fraction_min",
+      "unit": "fraction",
+      "definition": "Minimum slow-player fraction across the two supported teams"
+    },
+    {
+      "name": "both_teams_collective_slow_duration_s",
+      "unit": "s",
+      "definition": "Consecutive samples in which both supported teams have enough slow players"
+    },
+    {
+      "name": "both_teams_slowdown_min_1s_mps",
+      "unit": "m/s",
+      "definition": "Minimum team slowdown; positive only when both team mean speeds decrease"
+    },
+    {
+      "name": "both_teams_speed_increase_min_1s_mps",
+      "unit": "m/s",
+      "definition": "Minimum team speed increase; positive only when both increase; does not prove a restart"
+    },
+    {
+      "name": "both_teams_slow_fraction_min_trailing_1s",
+      "unit": "fraction",
+      "definition": "Minimum trailing mean slow-player fraction across teams"
+    },
+    {
+      "name": "both_teams_slowdown_min_3s_mps",
+      "unit": "m/s",
+      "definition": "Minimum team slowdown; positive only when both team mean speeds decrease"
+    },
+    {
+      "name": "both_teams_speed_increase_min_3s_mps",
+      "unit": "m/s",
+      "definition": "Minimum team speed increase; positive only when both increase; does not prove a restart"
+    },
+    {
+      "name": "both_teams_slow_fraction_min_trailing_3s",
+      "unit": "fraction",
+      "definition": "Minimum trailing mean slow-player fraction across teams"
+    },
+    {
+      "name": "both_teams_slowdown_min_5s_mps",
+      "unit": "m/s",
+      "definition": "Minimum team slowdown; positive only when both team mean speeds decrease"
+    },
+    {
+      "name": "both_teams_speed_increase_min_5s_mps",
+      "unit": "m/s",
+      "definition": "Minimum team speed increase; positive only when both increase; does not prove a restart"
+    },
+    {
+      "name": "both_teams_slow_fraction_min_trailing_5s",
+      "unit": "fraction",
+      "definition": "Minimum trailing mean slow-player fraction across teams"
+    },
+    {
+      "name": "ball_observation_fraction_1s",
+      "unit": "fraction",
+      "definition": "Fraction of trailing samples containing an admitted ball observation; no hidden ball is read"
+    },
+    {
+      "name": "ball_observation_fraction_3s",
+      "unit": "fraction",
+      "definition": "Fraction of trailing samples containing an admitted ball observation; no hidden ball is read"
+    },
+    {
+      "name": "ball_observation_fraction_5s",
+      "unit": "fraction",
+      "definition": "Fraction of trailing samples containing an admitted ball observation; no hidden ball is read"
+    },
+    {
+      "name": "observed_exit_event",
+      "unit": "binary",
+      "definition": "Confirmed inside-to-outside tracking crossing; unavailable when evidence is missing; not a D label"
+    },
+    {
+      "name": "observed_entry_event",
+      "unit": "binary",
+      "definition": "Confirmed outside-to-inside tracking crossing; ball return alone is not a legal restart"
+    },
+    {
+      "name": "observed_outside_confirmed",
+      "unit": "binary",
+      "definition": "Ball observed outside configured margin for consecutive samples; unknown in the boundary band or without sufficient evidence"
+    },
+    {
+      "name": "seconds_since_observed_exit",
+      "unit": "s",
+      "definition": "Age of last confirmed observed exit; unknown before the first such event, retained through ball missing"
+    },
+    {
+      "name": "seconds_since_observed_entry",
+      "unit": "s",
+      "definition": "Age of last confirmed observed return; does not assert that play restarted"
+    },
+    {
+      "name": "observed_motion_onset",
+      "unit": "binary",
+      "definition": "Observed speed increase after a supported slow-ball run; not a kick or restart detector"
+    },
+    {
+      "name": "seconds_since_observed_motion_onset",
+      "unit": "s",
+      "definition": "Age of last observed motion onset; does not identify a legal restart"
+    },
+    {
+      "name": "observed_exit_recent_5s",
+      "unit": "binary",
+      "definition": "Last confirmed exit was this recent; unknown before any confirmed exit, no claim about unobserved exits"
+    },
+    {
+      "name": "observed_exit_recent_15s",
+      "unit": "binary",
+      "definition": "Last confirmed exit was this recent; unknown before any confirmed exit, no claim about unobserved exits"
+    },
+    {
+      "name": "observed_exit_recent_30s",
+      "unit": "binary",
+      "definition": "Last confirmed exit was this recent; unknown before any confirmed exit, no claim about unobserved exits"
+    },
+    {
+      "name": "close_opponents_duration_s",
+      "unit": "s",
+      "definition": "Duration of close opposing-player positions; the nearest pair may change, no contact or foul inferred"
+    },
+    {
+      "name": "opponents_min_distance_change_1s_m",
+      "unit": "m",
+      "definition": "Change between successive window means of nearest-opponent distance; pairs need not be identical"
+    },
+    {
+      "name": "close_opponents_fraction_1s",
+      "unit": "fraction",
+      "definition": "Fraction of trailing samples with a close opposing pair; no physical-contact label"
+    },
+    {
+      "name": "opponents_min_distance_change_3s_m",
+      "unit": "m",
+      "definition": "Change between successive window means of nearest-opponent distance; pairs need not be identical"
+    },
+    {
+      "name": "close_opponents_fraction_3s",
+      "unit": "fraction",
+      "definition": "Fraction of trailing samples with a close opposing pair; no physical-contact label"
+    },
+    {
+      "name": "opponents_min_distance_change_5s_m",
+      "unit": "m",
+      "definition": "Change between successive window means of nearest-opponent distance; pairs need not be identical"
+    },
+    {
+      "name": "close_opponents_fraction_5s",
+      "unit": "fraction",
+      "definition": "Fraction of trailing samples with a close opposing pair; no physical-contact label"
+    }
+  ],
+  "temporal_feature_config": {
+    "fps": 10,
+    "windows_seconds": [
+      1,
+      3,
+      5
+    ],
+    "exit_recency_seconds": [
+      5,
+      15,
+      30
+    ],
+    "min_players_with_velocity_per_team": 3,
+    "player_velocity_qc_mps": 20.0,
+    "slow_players_fraction_threshold": 0.6,
+    "outside_margin_m": 0.25,
+    "boundary_confirmation_samples": 2,
+    "max_boundary_crossing_seconds": 1.0,
+    "minimum_pre_motion_slow_duration_s": 1.0,
+    "motion_speed_threshold_mps": 1.0,
+    "close_opponents_distance_m": 1.5
+  }
+}

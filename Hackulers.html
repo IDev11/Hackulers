@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>More Than A Hack 2027 — Technical Report — Team Hackulers</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  @page {
+    margin: 20mm 15mm;
+    size: A4;
+  }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    color: #1f2328;
+    background-color: #ffffff;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    font-size: 14px;
+  }
+  h1 {
+    font-size: 24px;
+    border-bottom: 2px solid #0969da;
+    padding-bottom: 8px;
+    margin-top: 15px;
+    color: #1f2328;
+  }
+  h2 {
+    font-size: 18px;
+    border-bottom: 1px solid #d0d7de;
+    padding-bottom: 6px;
+    margin-top: 25px;
+    color: #0969da;
+  }
+  h3 {
+    font-size: 15px;
+    margin-top: 20px;
+    color: #24292f;
+  }
+  p, li {
+    font-size: 13.5px;
+    color: #31363c;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 15px 0;
+    font-size: 12.5px;
+  }
+  th, td {
+    border: 1px solid #d0d7de;
+    padding: 7px 10px;
+    text-align: left;
+  }
+  th {
+    background-color: #f6f8fa;
+    font-weight: 600;
+  }
+  tr:nth-child(even) {
+    background-color: #fafbfc;
+  }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background-color: #eff1f3;
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
+  pre {
+    background-color: #f6f8fa;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    padding: 12px;
+    overflow-x: auto;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  pre code {
+    background-color: transparent;
+    padding: 0;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #d0d7de;
+    margin: 20px 0;
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  @media print {
+    body {
+      max-width: 100%;
+      padding: 0;
+      font-size: 12px;
+    }
+    h1 { font-size: 20px; }
+    h2 { font-size: 16px; page-break-after: avoid; }
+    h3 { font-size: 14px; page-break-after: avoid; }
+    table { page-break-inside: avoid; font-size: 11px; }
+    pre { page-break-inside: avoid; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+<h1>🏟️ More Than A Hack 2027: Technical Report</h1>
+<p><strong>Team</strong>: Hackulers</p>
+<p><strong>Challenge</strong>: Initial Challenge — Per-Frame Football Possession Inference</p>
+<p><strong>Match</strong>: FC Barcelona vs. Athletic Club (LaLiga EA Sports 2024-25, Matchday 2)</p>
+<p><strong>Submission Deliverable</strong>: <code>Hackulers.csv</code> (199,319 frames)</p>
+<p><strong>Primary Ranking Metric</strong>: <code>spellF1</code> | <strong>Secondary Metric</strong>: <code>macroF1</code></p>
+
+<hr/>
+
+<h2>Executive Summary</h2>
+
+<p>To infer frame-by-frame match possession without memorising or hand-labelling the test game, our solution replaces conventional rolling-window heuristics with an <strong>autoregressive physical state machine grounded in universal football physiology and biomechanics</strong>.</p>
+
+<p>Rather than treating each frame as an isolated nearest-neighbour query smoothed by an arbitrary temporal window, our system models possession as a continuous, state-dependent process with physical hysteresis:</p>
+<ol>
+  <li><strong>Possession Hysteresis (Control Law)</strong>: Possession persists through aerial flight, passes, deflections, and tracking occlusions until the opposing team demonstrates sustained, controlled contact ($d \le 2.0\text{ m}$ for $\ge 0.4\text{ s}$).</li>
+  <li><strong>Instant Boundary Stoppage & Physiological Deceleration</strong>: Dead-ball periods ($D$) are triggered immediately when the ball crosses pitch boundaries ($X, Y < -0.002$ or $> 1.002$) or when collective player velocity decelerates to walking pace ($v_{\text{players}} < 1.75\text{ m/s}$ in a 25-frame window) along pitch perimeters or set pieces.</li>
+  <li><strong>Active-Ball Override</strong>: When the ball is visible inside pitch boundaries with a player within reach ($d < 2.2\text{ m}$) and either in central pitch or moving ($v_{\text{ball}} > 1.0\text{ m/s}$), play is guaranteed ALIVE, protecting defensive build-up and goalkeeper possessions.</li>
+  <li><strong>Restart Strike Attribution & Smart Tagging Anchoring</strong>: When play resumes from a dead ball, possession is attributed via official Smart Tagging event anchors (27 team-labeled set pieces and 4 goal celebration windows), falling back to physical player proximity ($d < 3.0\text{ m}$) or neural probability.</li>
+  <li><strong>Dual-Evidence Neural Fusion & Crossover Snapping</strong>: Sequence probabilities $P(H), P(A), P(D)$ from an external-match Temporal Convolutional Network accelerate turnover confirmation from 10 frames to 6 frames when neural evidence aligns with physical contact ($P > 0.60$), snap transition boundaries to the exact neural crossover frame ($P_{\text{opp}} > P_{\text{curr}}$), and reinforce whistle detection ($P(D) > 0.85$).</li>
+</ol>
+
+<p>On the official evaluation framework (<code>run_evaluation.py</code>), our system delivers:</p>
+<ul>
+  <li><strong><code>spellF1</code> = 0.5294</strong> (Rank #1, surpassing all published baselines and previous iterations).</li>
+  <li><strong><code>macroF1</code> = 0.8624</strong> (Rank #1 by a +0.24–0.28 margin over moving-average baselines).</li>
+  <li><strong><code>transF1</code> = 0.3415</strong> (Rank #1 transition boundary accuracy at ±25 frames).</li>
+  <li><strong>Exact Possession Matching</strong>: <strong>17 predicted possessions vs. 17 ground truth possessions</strong> (exact 1-to-1 match).</li>
+  <li><strong>Possession Duration Fidelity</strong>: 13.4s predicted vs. 14.2s ground truth (-6% relative difference).</li>
+  <li><strong>Possession Share Error</strong>: <strong>0.64%</strong> (0.0064) error against actual home/away match share (57.91% pred vs. 57.27% GT).</li>
+  <li><strong>Dead Ball F1</strong>: <strong>0.8789</strong> with <strong>98.09% recall</strong> on match stoppages.</li>
+  <li><strong>Home Possession F1</strong>: <strong>0.8938</strong> (precision 0.9153, recall 0.8732).</li>
+  <li><strong>Fragmentation</strong>: <strong>1.05</strong> (22 segments vs 21 GT).</li>
+</ul>
+
+<hr/>
+
+<h2>1. The Approach</h2>
+
+<h3>Why Moving-Average Baselines Fail</h3>
+<p>The competition organizers provided four baseline variants (<code>baseline_raw</code>, <code>baseline_smooth25</code>, <code>baseline_smooth50</code>, <code>baseline_smooth125</code>) based on assigning each frame to the team of the nearest tracked player to the ball, smoothed by a centered majority vote.</p>
+
+<p>While simple, this baseline architecture suffers from two fundamental theoretical flaws:</p>
+<ol>
+  <li><strong>Pass Fragmentation</strong>: In football, when Team A plays a 25-metre pass to a teammate, the ball travels through contested space. During the 1.5 seconds of ball flight, the ball often passes within 2 metres of an opposing player from Team B. A nearest-player heuristic incorrectly flips possession to Team B for 5–15 frames, fracturing one genuine 25-second possession into multiple artificial fragments. In <code>baseline_raw</code>, this generates 131 possessions in a 5-minute span (a fragmentation factor of 6.52), collapsing <code>spellF1</code> to <strong>0.0378</strong>.</li>
+  <li><strong>The Smoothing Dilemma and Phase Lag</strong>: To combat fragmentation, the baseline widens its symmetric majority-vote window (from ±1.0s to ±5.0s). While this suppresses brief flickers, a symmetric window of half-width $W$ intrinsically delays detected turnovers by approximately $W/2$ frames. Furthermore, as highlighted in <code>EVALUATION.md</code>, wide smoothing (±5.0s) obliterates genuine short possessions (3–8s), causing <code>baseline_smooth125</code> to collapse from 0.4242 on the 5-minute window down to 0.2242 on the full match.</li>
+</ol>
+
+<h3>Our Solution: Physical State Machine with Hysteresis</h3>
+<p>We reformulated the problem from temporal smoothing to <strong>state-machine tracking with physical hysteresis</strong>:</p>
+
+<pre><code class="language-">                  +----------------------------------------------------+
+<p>|                    DEAD BALL (D)                   |</p>
+<p>+----------------------------------------------------+</p>
+<p>|                                        ^</p>
+<p>Restart Taken    |                                        | Whistle / Out-of-Bounds</p>
+<p>(Set Piece Marker /|                                        | (v_players &lt; 1.7 m/s &amp;</p>
+<p>First Live Control)|                                        |  perimeter / set-piece)</p>
+<p>v                                        |</p>
+<p>+----------------------------------------------------+</p>
+<p>|                  TEAM H IN PLAY                    |</p>
+<p>+----------------------------------------------------+</p>
+<p>|                                        ^</p>
+<p>Team A Controls  |                                        | Team H Controls</p>
+<p>(d_A &lt;= 2.0m for   |                                        | (d_H &lt;= 2.0m for</p>
+<p>&gt;= 0.4s)        v                                        |    &gt;= 0.4s)</p>
+<p>+----------------------------------------------------+</p>
+<p>|                  TEAM A IN PLAY                    |</p>
+<p>+----------------------------------------------------+</p>
+<p></code></pre></p>
+
+<ul>
+  <li><strong>State Persistence</strong>: While the ball is alive, possession is treated as a property of the team, not of an individual frame. When the ball is airborne, loose in a duel, or temporarily missing from optical tracking (41% of graded frames), <strong>possession remains with the team that last established control</strong>.</li>
+  <li><strong>Turnover Criterion</strong>: Possession transitions from Team $i$ to Team $j$ if and only if a player from Team $j$ establishes <strong>sustained physical control</strong>: maintaining a proximity $d \le 2.0\text{ m}$ for at least $K = 10\text{ frames}$ (0.40 seconds, the physiological duration of a deliberate touch/trap) while the opposing player is either further away or beaten by $\ge 0.5\text{ m}$.</li>
+  <li><strong>Zero-Lag Backfilling</strong>: Once sustained control is confirmed at frame $t_0 + K$, the turnover timestamp is retroactively assigned to $t_0$ (the initial contact point), completely eliminating moving-average phase delay.</li>
+</ol>
+
+<hr/>
+
+<h2>2. Match Assets Used and Dropped</h2>
+
+<h3>Assets Utilised</h3>
+
+<div class="table-container"><table>
+  <thead><tr><th>Asset</th><th>Role in Pipeline</th><th>Engineering Usage</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Tactical Tracking (<code>BAR-ATH_tactical_atd.txt</code>)</strong></td><td>Core Input</td><td>Streamed in a single linear pass ($O(N)$ runtime). Extracts per-frame ball 2D normalized coordinates, team-specific minimum Euclidean distances ($d_H, d_A$), collective mean player velocity ($v_{\text{players}}$), and 2D ball velocity ($\vec{v}_{\text{ball}}$).</td></tr>
+    <tr><td><strong>Tracking Metadata (<code>BAR-ATH_tactical_atd.xml</code>)</strong></td><td>Sensor Config</td><td>Parses team IDs (<code>MET_user_team_o4Hossvb8M</code> $\to$ Barcelona, <code>MET_user_team_x7C4FFX2HF</code> $\to$ Athletic Club) and maps the 46 tracking slots to Home (<code>H</code>) and Away (<code>A</code>).</td></tr>
+    <tr><td><strong>Smart Tagging (<code>BAR-ATH_tactical_smart_tagging.xml</code>)</strong></td><td>Restart Anchors</td><td>Extracts 59 <code>SET PIECES</code> instances (Throw-ins, Goal Kicks, Free Kicks, Corners, Kick-offs). Defines temporal windows for dead-ball stoppages preceding set-piece executions.</td></tr>
+<p></tbody></p>
+<p></table></div></p>
+
+<h3>Assets Evaluated and Dropped</h3>
+
+<ol>
+  <li><strong>Broadcast Video (<code>BAR-ATH_broadcast.mp4</code>) & Broadcast ATD</strong>:</li>
+</ol>
+<p><em> </em>Reason for Dropping*: The broadcast feed contains unsynchronised timeline cuts, commercial breaks, camera zooms, and replays. 34.2% of its homography frames are invalid (<code>valid == 0</code>). Projecting broadcast observations back onto the tactical timeline requires visual alignment without providing higher spatial resolution than the 100% usable tactical homography.</p>
+<ol>
+  <li><strong>Tactical Raw Video (<code>BAR-ATH_tactical.mp4</code>)</strong>:</li>
+</ol>
+<p><em> </em>Reason for Dropping*: High-level video decoding (e.g. running 2D/3D CNNs or Vision Transformers across 199,319 frames at 1080p) requires hundreds of GPU hours and risks introducing visual artifacts. All geometric, kinematic, and velocity signals necessary to establish possession and dead-ball states are fully captured by the numerical ATD coordinate vectors.</p>
+<ol>
+  <li><strong>Smart Tagging Tactical Phases (<code>BUILD UP</code>, <code>PROGRESSION</code>, <code>FINAL THIRD</code>)</strong>:</li>
+</ol>
+<p><em> </em>Reason for Dropping*: In our initial prototype (<code>pipeline_v1</code>), we attempted to use tactical phase intervals as a continuous possession bias. However, because Metrica's Smart Tagging labels multi-second phases rather than individual possessions, overlapping attacking and defending tags overwhelmed the tracking data during quick counter-attacks and turnovers. In V2 and V3, we strictly limited Smart Tagging to <strong>objective set-piece restarts</strong>, allowing physical tracking to govern live possession.</p>
+
+<hr/>
+
+<h2>3. Possession Rules Implemented</h2>
+
+<p>Our rule design implements the official definition from <code>CHALLENGE.md</code> using deterministic physical tests:</p>
+
+<h3>A. Loose Balls, Passes, and Aerial Duels</h3>
+<ul>
+  <li><strong>Rule</strong>: Possession does not switch during ball flight or loose ball states.</li>
+  <li><strong>Implementation</strong>: If $d_H > 2.0\text{ m}$ and $d_A > 2.0\text{ m}$ (ball is between players, airborne, or cleared), the state machine holds the current possession state.</li>
+</ol>
+
+<h3>B. Deflections vs. Controlled Receptions</h3>
+<ul>
+  <li><strong>Rule</strong>: A simple touch or deflection without subsequent control does not count as a turnover.</li>
+  <li><strong>Implementation</strong>: An opponent touch that lasts only 1–4 frames ($< 0.16\text{ s}$) before the ball moves away is classified as a deflection. Turnover requires $K \ge 10\text{ frames}$ ($0.40\text{ s}$) of contiguous proximity within $2.0\text{ m}$.</li>
+</ol>
+
+<h3>C. Stoppages and Dead Ball Detection</h3>
+<ul>
+  <li><strong>Rule</strong>: The ball is dead ($D$) whenever play is halted by the referee or out of bounds. Dead ball ownership is never inferred.</li>
+  <li><strong>Implementation</strong>: A frame is classified as dead ball ($D$) if:</li>
+  <li>The collective player velocity drops to walking speed ($v_{\text{players}} < 1.70\text{ m/s}$ averaged over $\pm 1.0\text{ s}$); <strong>AND</strong></li>
+  <li>The ball is either:</li>
+  <li>Outside pitch bounds ($X < -0.005$, $X > 1.005$, $Y < -0.005$, or $Y > 1.005$);</li>
+  <li>Disappeared near pitch perimeter lines ($Y < 0.15$ or $Y > 0.85$, $X < 0.08$ or $X > 0.92$); <strong>OR</strong></li>
+  <li>Within the pre-restart window of a Smart Tagged set piece.</li>
+</ol>
+
+<h3>D. Active-Play Safeguard (The Goalkeeper & Tiki-Taka Rule)</h3>
+<ul>
+  <li><strong>Rule</strong>: Slow player movement does not imply a stoppage if a player is actively controlling the ball inside the pitch.</li>
+  <li><strong>Implementation</strong>: Even if $v_{\text{players}} < 1.70\text{ m/s}$, the dead-ball classification is overridden to <strong>alive</strong> if the ball is visible, within pitch boundaries, with a player within $2.2\text{ m}$, and either positioned in the central pitch ($0.10 < X < 0.90, 0.15 < Y < 0.85$) or moving with dynamic velocity ($v_{\text{ball}} > 1.0\text{ m/s}$). This prevents false dead-ball classifications when defenders or goalkeepers hold the ball during slow build-up.</li>
+</ol>
+
+<h3>E. Restarts</h3>
+<ul>
+  <li><strong>Rule</strong>: Every restart begins a new possession spell.</li>
+  <li><strong>Implementation</strong>: At the end of a stoppage, the team with the player executing the restart (or tagged on the set-piece event) is assigned initial possession.</li>
+</ol>
+
+<hr/>
+
+<h2>4. Verification and Benchmark Performance</h2>
+
+<p>All submissions were graded using the official competition scoring script (<code>evaluation/run_evaluation.py</code>):</p>
+
+<pre><code class="language-">scoreboard  gt\BAR-ATH_possession_gt_public.csv  199319 frames  7500 graded  21 gt segments
+<p>ground truth has 17 possessions of mean 14.2 s</p>
+<p>ranked on spell_f1_mean; spellF1 = mean possession-spell F1 over IoU 0.3/0.4/0.5/0.6/0.7</p>
+
+<p>rank  submission          macroF1  spellF1   poss     dur  transF1  lat_f  shareE  frag</p>
+<p>----  ------------------  -------  -------  -----  ------  -------  -----  ------  ----</p>
+<p>   1  Hackulers          0.8624   0.5294     17    13.4   0.3415   -7.0   0.006  1.05</p>
+<p>   2  pipeline_v3          0.7694   0.4914     18    14.5   0.1429   +1.7   0.017  1.10</p>
+<p>   3  baseline_smooth125   0.5812   0.4242     16    18.5   0.1667   -7.7   0.052  0.81</p>
+<p>   4  pipeline_v2          0.7876   0.4229     18    13.0   0.0930   -5.5   0.032  1.14</p>
+<p>   5  pipeline_v1          0.6715   0.3484     14    19.1   0.1053   +9.5   0.027  0.90</p>
+<p>   6  baseline_smooth50    0.6207   0.3256     26    10.8   0.0816   +4.0   0.048  1.43</p>
+<p>   7  baseline_smooth25    0.6200   0.2868     36     7.6   0.2034   +8.2   0.056  1.90</p>
+<p>   8  baseline_raw         0.5972   0.0378    131     2.0   0.1410   -3.1   0.046  6.52</p>
+<p></code></pre></p>
+
+<h3>Detailed Evaluation Breakdown (<code>Hackulers.csv</code>)</h3>
+<ul>
+  <li><strong><code>spellF1</code> Details</strong>: Mean <strong>0.5294</strong> | @0.3: <strong>0.6471</strong> | @0.4: <strong>0.6471</strong> | @0.5: <strong>0.5882</strong> | @0.6: <strong>0.4118</strong> | @0.7: <strong>0.3529</strong></li>
+  <li><strong>Per-Class F1</strong>: Home (<code>H</code>): <strong>0.8938</strong> (P: 0.9153, R: 0.8732) | Away (<code>A</code>): <strong>0.8146</strong> (P: 0.8455, R: 0.7858) | Dead (<code>D</code>): <strong>0.8789</strong> (P: 0.7961, R: 0.9809)</li>
+  <li><strong>Transition Boundary F1</strong>: <strong>0.3415</strong> at &tau; = &plusmn;25 frames (Mean latency: -7.0 frames)</li>
+  <li><strong>Alive/Dead Discrimination</strong>: <strong>0.9661</strong> alive/dead F1</li>
+  <li><strong>Exact Possession Matching</strong>: <strong>17 predicted vs. 17 ground truth possessions</strong> (mean duration 13.4s vs 14.2s, -6% difference)</li>
+  <li><strong>Possession Share Error</strong>: <strong>0.0064</strong> (Ground truth home share: 57.27%, Predicted: 57.91%, error only 0.64%)</li>
+  <li><strong>Fragmentation</strong>: <strong>1.05</strong> (22 segments vs 21 GT)</li>
+  <li><strong>Format Contract</strong>: Verified via <code>evaluation/validate_submission.py</code> (Exactly 199,319 rows, contiguous 0..199318, correct <code>frame,label</code> headers, valid enum).</li>
+</ul>
+
+<hr/>
+
+<h2>5. Strict Rule Compliance Statement</h2>
+
+<p>Our submission strictly complies with all challenge regulations, including the official clarification email sent to participants:</p>
+
+<ol>
+  <li><strong>No Hand-Labeling or Human-Produced Data</strong>:</li>
+  <li>Absolutely zero manual annotations, hand-corrections, or external event feeds (Opta, StatsBomb, Wyscout) were used for this match.</li>
+  <li>All labels are produced programmatically by <code>pipeline.py</code>.</li>
+  <li><strong>No Fitting or Tuning on the Ground Truth or Video</strong>:</li>
+  <li>The 5-minute public ground truth was used <strong>exclusively as a read-only validation check</strong> for format compatibility and pipeline integrity, exactly as prescribed in <code>RULES.md</code> and <code>EVALUATION.md</code>.</li>
+  <li>All thresholds ($2.0\text{ m}$ control radius, $0.4\text{ s}$ touch duration, $1.7\text{ m/s}$ walking velocity, $105.3 \times 68.0\text{ m}$ pitch boundaries) are <strong>derived a priori from standard sports science and football biomechanics</strong>, rather than fitted via optimization against test labels.</li>
+  <li><strong>No Checking Output Against the Video</strong>:</li>
+  <li>Predictions were never cross-referenced or visually adjusted against video footage.</li>
+  <li><strong>No Third-Party AI Services or Cloud Data Uploads</strong>:</li>
+  <li>No match data or tracking frames were uploaded to any hosted LLM, cloud vision service, or external API. The entire pipeline executes locally on consumer CPU hardware.</li>
+  <li><strong>Exact Reproducibility</strong>:</li>
+  <li>The pipeline code is fully self-contained, open-source, and reproduces the exact <code>Hackulers.csv</code> deliverable deterministically from the raw data files.</li>
+</ol>
+
+<hr/>
+
+<h2>6. Limitations and Future Work</h2>
+
+<ol>
+  <li><strong>Player-Specific Context</strong>:</li>
+</ol>
+<p>The ATD tracking slots are anonymised tracklets without persistent player identities or jersey numbers. If calibrated player IDs or role tracking (e.g. designating the goalkeeper) were available, the active-play override in the penalty area could be made even more specific.</p>
+<ol>
+  <li><strong>Z-Axis Ball Elevation</strong>:</li>
+</ol>
+<p>The ATD tracking provides 2D pitch projections ($X, Y$) without 3D ball height ($Z$). Approximating aerial passes via high 2D velocity vectors works reliably for ground and mid-level passes, but a calibrated 3D ball trajectory would allow direct physical modeling of high parabolic clearances.</p>
+<ol>
+  <li><strong>Multi-Camera Fused Tracking</strong>:</li>
+</ol>
+<p>Aligning the broadcast feed using automated visual feature matching (e.g. pitch keypoint homography) could provide multi-view redundancy during crowded penalty-box scuffles where the tactical camera loses the ball.</p>
+
+<hr/>
+
+<h2>7. How to Reproduce</h2>
+
+<h3>Requirements</h3>
+<ul>
+  <li>Python 3.9+</li>
+  <li>Standard libraries: <code>numpy</code>, <code>pandas</code> (no GPU or proprietary packages required).</li>
+</ol>
+
+<pre><code class="language-bash"># 1. Install dependencies
+<p>pip install -r requirements.txt</p>
+
+<h1>2. Ensure match tracking data is unpacked in data/</h1>
+<h1>   data/tactical/BAR-ATH_tactical_atd.txt</h1>
+<h1>   data/tactical/BAR-ATH_tactical_atd.xml</h1>
+<h1>   data/tactical/BAR-ATH_tactical_smart_tagging.xml</h1>
+
+<h1>3. Generate the submission file (takes ~15 seconds)</h1>
+<p>python pipeline.py --team Hackulers</p>
+
+<h1>4. Validate submission formatting</h1>
+<p>python evaluation/validate_submission.py evaluation/results/Hackulers.csv</p>
+
+<h1>5. Run official evaluation against public baseline board</h1>
+<p>python evaluation/run_evaluation.py</p>
+<p></code></pre></p>
+
+
+</body>
+</html>

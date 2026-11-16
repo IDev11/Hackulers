@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------------------------------------
+# Hackulers Submission Repository (.gitignore)
+# ---------------------------------------------------------------------------------------------
+
+# -- private ground truth ----------------------------------------------------------------------
+*_possession_gt.csv
+*_possession_gt_meta.json
+*_possession_gt_reference.csv
+possession_by_frame.pkl
+
+# -- submissions -------------------------------------------------------------------------------
+evaluation/results/*.csv
+!evaluation/results/baseline_*.csv
+!evaluation/results/Hackulers.csv
+
+evaluation/reports/
+evaluation/scoreboard.csv
+
+# -- gated match tracking & video data ---------------------------------------------------------
+# The raw match tracking and videos are proprietary and must not be redistributed.
+data/*
+!data/README.md
+!data/TCN_native_with_probabilities.csv
+!data/yolo_full_timeline_partial_93000.csv
+
+*.mp4
+*.gzip
+*.pl3container
+
+# -- internal documents & temp files ----------------------------------------------------------
+*.pdf.tmp
+scratch*
+TEAM_MEETING_REPORT.md
+TEAM_UPDATE_AND_REVIEW.md
+
+# -- python & environment caches --------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.idea/
+.vscode/
+.DS_Store
