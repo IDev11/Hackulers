@@ -34,6 +34,7 @@ data/*
 scratch*
 TEAM_MEETING_REPORT.md
 TEAM_UPDATE_AND_REVIEW.md
+TECHNICAL_REPORT_CONTRIBUTIONS.md
 
 # -- python & environment caches --------------------------------------------------------------
 __pycache__/
