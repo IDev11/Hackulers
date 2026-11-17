@@ -619,10 +619,6 @@ def main():
     parser.add_argument("--tcn", default=os.path.join(ROOT, "data", "TCN_native_with_probabilities.csv"),
                         help="Path to external TCN probabilities CSV")
     default_yolo = os.path.join(ROOT, "data", "yolo_full_timeline_merged_147500.csv")
-    if not os.path.isfile(default_yolo):
-        default_yolo = os.path.join(ROOT, "data", "yolo_full_timeline_merged_127000.csv")
-    if not os.path.isfile(default_yolo):
-        default_yolo = os.path.join(ROOT, "data", "yolo_full_timeline_partial_93000.csv")
     parser.add_argument("--yolo", default=default_yolo,
                         help="Path to external YOLO ball detections CSV (Kim's tracker)")
     args = parser.parse_args()
