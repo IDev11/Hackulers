@@ -1,0 +1,12 @@
+{
+  "video": "../data/tactical/BAR-ATH_tactical.mp4",
+  "weights": "weights/yolo26-best-ball.pt",
+  "homography": "../data/tactical/BAR-ATH_tactical_homography.csv",
+  "start": 0,
+  "frames": 199319,
+  "imgsz": 1280,
+  "confidence": 0.25,
+  "device": "cpu",
+  "expected_sha256": "ddcfb8bf3606ecbcceef19793980bdf1c8ff535b6e7f4d924c5fde2c76feec6d",
+  "output_root": "outputs"
+}
