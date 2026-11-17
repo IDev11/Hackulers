@@ -22,6 +22,7 @@ data/*
 !data/README.md
 !data/TCN_native_with_probabilities.csv
 !data/yolo_full_timeline_partial_93000.csv
+!data/yolo_full_timeline_merged_127000.csv
 
 *.mp4
 *.gzip

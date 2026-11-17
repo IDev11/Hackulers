@@ -19,7 +19,7 @@ Instead of conventional rolling-window nearest-player heuristics (which suffer f
 4. **IFAB Set-Piece Decoupling**: Official referee-tagged set-piece restart windows (10.0s setup, 2.0s restart) are strictly preserved as dead balls under IFAB football rules, decoupling stoppage preparation from open-play player proximity.
 5. **Smart Tagging Restart Anchors & Tactical Phase Priors**: Play resumption from dead balls is anchored to official event metadata (27 team-labeled set pieces and 4 goal celebrations), backed by physical proximity ($d < 3.0\text{ m}$) and TCN confidence. Active offensive phases provide domain-level alive-shielding against false dead balls and hysteresis priors against spurious micro-turnovers.
 6. **Dual-Evidence Neural Fusion & Crossover Snapping**: Sequence probabilities $P(H), P(A), P(D)$ from an embedded 5-block Dilated Temporal Convolutional Network (TCN) are integrated with physical contact gates, accelerating turnover confirmation from 10 frames to 6 frames when neural evidence aligns with proximity ($P > 0.60$), snapping turnover boundaries to the exact neural crossover frame ($P_{\text{opp}} > P_{\text{curr}}$), and reinforcing whistle detection ($P(D) > 0.85$).
-7. **Hierarchical YOLO Ball Recovery**: Kim's calibrated external YOLO tracker is integrated as an opportunistic fallback, recovering **8,263 frames (+10.4%) of missing ball coordinates** where optical tracking was blind.
+7. **Hierarchical YOLO Ball Recovery**: Kim's calibrated external YOLO tracker (`yolo_full_timeline_merged_127000.csv`, covering frames 8 through 143,557 with 56,389 valid pitch coordinates) is integrated as an opportunistic fallback, recovering **10,627 frames (+13.4%) of missing ball coordinates** across the match where optical tracking was blind (including 4,185 frames in the public 5-minute ground truth window).
 
 ---
 
@@ -132,7 +132,7 @@ Hackulers/
 ├── data/
 │   ├── README.md
 │   ├── TCN_native_with_probabilities.csv
-│   └── yolo_full_timeline_partial_93000.csv
+│   └── yolo_full_timeline_merged_127000.csv
 └── evaluation/
     ├── possession_metrics.py  # Official competition metrics library
     ├── run_evaluation.py      # Leaderboard evaluation script
