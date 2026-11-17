@@ -1,0 +1,12 @@
+/outputs/
+/configs/local*.json
+/weights/*
+!/weights/checkpoint.json
+*.pt
+*.pth
+*.onnx
+*.jsonl
+*.mp4
+*.pending
+__pycache__/
+.venv/

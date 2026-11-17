@@ -1,0 +1,7 @@
+{
+  "filename": "yolo26-best-ball.pt",
+  "sha256": "ddcfb8bf3606ecbcceef19793980bdf1c8ff535b6e7f4d924c5fde2c76feec6d",
+  "bytes": 218819503,
+  "source": "User-supplied existing checkpoint; notebooks identify it as before-v2 YOLO26m",
+  "redistribution_permission": "Not established; checkpoint excluded from code archive"
+}
