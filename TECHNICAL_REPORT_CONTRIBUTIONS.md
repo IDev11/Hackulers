@@ -109,12 +109,12 @@ OK    Hackulers.csv
       199319 rows, frame 0..199318
 
       label counts
-        H    44876   22.5%
-        A    27331   13.7%
-        D    86650   43.5%
+        H    44737   22.4%
+        A    27486   13.8%
+        D    86634   43.5%
         X    40462   20.3%
 
-      reports 286 possessions of mean 10.1 s
+      reports 285 possessions of mean 10.1 s
       (counted with each X as a gap; the scorer bridges abstentions inside a real
        possession, so its count can be lower than this one)
 
